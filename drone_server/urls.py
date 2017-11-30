@@ -17,7 +17,11 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from django.views.generic import RedirectView
 
+from drones import views
+
 urlpatterns = [
+    url(r'^latest/', views.index, name='index'),
+    url(r'^create_latest/', views.create_latest, name='create_index'),
     url(r'^admin/', admin.site.urls),
 # Django ATC API
     url(r'^api/v1/', include('atc_api.urls')),
