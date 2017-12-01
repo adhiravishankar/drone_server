@@ -16,13 +16,18 @@ from django.http import HttpResponse
 
 import cv2
 import numpy as np
+
+import drones
 # Create your views here.
 
 
 def index(request):
+    ret, img = drones.cap.read()
+    ret,img_webp = cv2.imencode(".webp", img)
     try:
-        with open(os.readlink("/home/pi/drone_server/latest.webp"), "rb") as f:
-            return HttpResponse(f.read(), content_type="image/webp")
+##        with open(os.readlink("/home/pi/drone_server/latest.webp"), "rb") as f:
+        
+        return HttpResponse(img_webp.tobytes(), content_type="image/webp")
     except IOError:
         print "latest.webp not found"
         red = Image.new('RGBA', (1, 1), (255, 0, 0, 0))
@@ -33,11 +38,11 @@ def index(request):
 
 def create_latest(request):
     # initialising video capture object: camera
-    cap = cv2.VideoCapture(0)
-    w = 800
-    h = 448
-    cap.set(3,w);
-    cap.set(4,h);
+##    cap = cv2.VideoCapture(0)
+##    w = 800
+##    h = 448
+##    cap.set(3,w);
+##    cap.set(4,h);
     
     # capture frame and save as jpg
     ret, img = cap.read()
